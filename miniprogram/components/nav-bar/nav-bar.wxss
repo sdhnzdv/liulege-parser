@@ -26,13 +26,15 @@
 .nav-back {
   position: absolute;
   left: 24rpx;
-  width: 60rpx;
+  width: 80rpx;
   height: 60rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text);
-  font-size: 36rpx;
+  color: var(--color-primary, #07c160);
+  font-size: 56rpx;
+  font-weight: 300;
+  line-height: 1;
 }
 
 .nav-placeholder {

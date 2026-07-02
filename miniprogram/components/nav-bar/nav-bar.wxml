@@ -3,7 +3,7 @@
   <view class="nav-bar-content" style="height: {{navBarHeight}}px;">
     <slot name="left">
       <view class="nav-back" wx:if="{{showBack}}" bindtap="onBack">
-        <text class="iconfont icon-back">←</text>
+        <text class="iconfont icon-back">‹</text>
       </view>
     </slot>
     <view class="nav-title">{{title}}</view>
