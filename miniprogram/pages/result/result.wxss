@@ -170,7 +170,23 @@
 /* 操作提示 */
 .action-hint {
   text-align: center;
-  padding: 32rpx;
+  padding: 32rpx 32rpx 16rpx;
   font-size: 24rpx;
   color: var(--color-text-muted);
+}
+
+/* 返回首页 */
+.back-home-section {
+  margin: 0 24rpx 40rpx;
+  padding: 24rpx 0;
+  text-align: center;
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-card);
+  border: 1rpx solid var(--color-border-light);
+}
+
+.back-home-text {
+  font-size: 28rpx;
+  color: var(--color-primary);
+  font-weight: 500;
 }

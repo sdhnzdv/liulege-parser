@@ -83,6 +83,11 @@
   <view class="action-hint">
     <text>💡 长按封面图可保存到相册</text>
   </view>
+
+  <!-- 返回首页 -->
+  <view class="back-home-section" bindtap="onGoHome">
+    <text class="back-home-text">↩ 返回首页</text>
+  </view>
 </view>
 
 <loading show="{{loading}}" text="加载中..." />
