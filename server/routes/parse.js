@@ -4,33 +4,18 @@ const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
-  openid: { type: String, required: true, unique: true },
-  dailyQuota: {
-    date: { type: String, default: '' },
-    used: { type: Number, default: 0 },
-    limit: { type: Number, default: 5 },
-    bonus: { type: Number, default: 0 }
-  },
-  totalParsed: { type: Number, default: 0 },
-  createTime: { type: Date, default: Date.now }
-});
-const User = mongoose.models.User || mongoose.model('User', userSchema);
-
-const historySchema = new mongoose.Schema({
-  openid: { type: String, required: true },
-  title: String, author: String, description: String,
-  cover: String, mediaUrl: String, type: String, platform: String,
-  createTime: { type: Date, default: Date.now }
-});
-const History = mongoose.models.History || mongoose.model('History', historySchema);
+// 复用已有的 User model，不重新定义
+const User = mongoose.models.User;
+const History = mongoose.models.History;
 
 function getOpenid(req) {
   const token = req.headers['authorization'] || '';
   if (token && token.startsWith('Bearer ')) {
     try {
       return jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET || 'default').openid;
-    } catch (e) {}
+    } catch (e) {
+      console.error('JWT 解析失败:', e.message);
+    }
   }
   return null;
 }
@@ -47,8 +32,20 @@ router.post('/parse', async (req, res) => {
     if (platform === 'unknown') return res.json({ success: false, message: '不支持的平台' });
 
     const today = getTodayStr();
+
+    // 查找用户，找不到就自动创建
     let user = await User.findOne({ openid }).catch(() => null);
-    if (!user) return res.json({ success: false, message: '用户不存在' });
+    if (!user) {
+      // 可能是 login 接口没有正确创建用户，这里补创建
+      user = await User.create({
+        openid,
+        dailyQuota: { date: today, used: 0, limit: 5, bonus: 0 }
+      }).catch((err) => {
+        console.error('parse 创建用户失败:', err.message);
+        return null;
+      });
+    }
+    if (!user) return res.json({ success: false, message: '用户数据异常，请重新登录' });
 
     let quota = user.dailyQuota;
     if (quota.date !== today) quota = { date: today, used: 0, limit: 5, bonus: 0 };
@@ -64,7 +61,10 @@ router.post('/parse', async (req, res) => {
     user.totalParsed = (user.totalParsed || 0) + 1;
     await user.save().catch(() => {});
 
-    await History.create({ openid, ...result.data, platform }).catch(() => {});
+    // 创建历史记录
+    if (History) {
+      await History.create({ openid, ...result.data, platform }).catch(() => {});
+    }
 
     return res.json({
       success: true,

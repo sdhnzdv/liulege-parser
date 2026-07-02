@@ -42,7 +42,11 @@ router.post('/login', async (req, res) => {
 
     const today = getTodayStr();
 
-    let user = await User.findOne({ openid }).catch(() => null);
+    let user = await User.findOne({ openid }).catch((err) => {
+      console.error('查找用户失败:', err.message);
+      return null;
+    });
+
     if (!user) {
       user = await User.create({
         openid,
@@ -51,16 +55,17 @@ router.post('/login', async (req, res) => {
         console.error('创建用户失败:', err.message);
         return null;
       });
+      console.log('新用户创建:', openid);
     }
 
     const token = jwt.sign({ openid }, process.env.JWT_SECRET || 'default', { expiresIn: '7d' });
 
-    let quota = user ? user.dailyQuota : { date: today, used: 0, limit: 5, bonus: 0 };
-    if (quota.date !== today) {
+    let quota = user ? (user.dailyQuota || { date: today, used: 0, limit: 5, bonus: 0 }) : { date: today, used: 0, limit: 5, bonus: 0 };
+    if (!quota.date || quota.date !== today) {
       quota = { date: today, used: 0, limit: 5, bonus: 0 };
       if (user) {
         user.dailyQuota = quota;
-        await user.save().catch(() => {});
+        await user.save().catch((e) => console.error('保存配额失败:', e.message));
       }
     }
 
