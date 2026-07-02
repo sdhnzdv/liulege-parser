@@ -1,0 +1,43 @@
+.card {
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin: 16rpx 24rpx;
+}
+
+.card-shadow {
+  box-shadow: var(--shadow-md);
+}
+
+.card-border {
+  border: 1rpx solid var(--color-border-light);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 28rpx 0;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.card-tag {
+  font-size: 22rpx;
+  color: var(--color-primary);
+  background-color: rgba(99, 102, 241, 0.1);
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.card-body {
+  padding: 24rpx 28rpx;
+}
+
+.card-footer {
+  padding: 0 28rpx 24rpx;
+}

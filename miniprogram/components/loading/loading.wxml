@@ -1,0 +1,9 @@
+<!-- 加载组件 -->
+<view class="loading" wx:if="{{show}}">
+  <view class="loading-spinner">
+    <view class="spinner-dot dot-1"></view>
+    <view class="spinner-dot dot-2"></view>
+    <view class="spinner-dot dot-3"></view>
+  </view>
+  <text class="loading-text" wx:if="{{text}}">{{text}}</text>
+</view>

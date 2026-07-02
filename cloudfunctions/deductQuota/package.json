@@ -1,0 +1,9 @@
+{
+  "name": "deductQuota",
+  "version": "1.0.0",
+  "description": "扣减配额",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

@@ -1,0 +1,9 @@
+<!-- 空状态组件 -->
+<view class="empty-state">
+  <view class="empty-icon">{{icon}}</view>
+  <text class="empty-title">{{title}}</text>
+  <text class="empty-desc" wx:if="{{desc}}">{{desc}}</text>
+  <view wx:if="{{showBtn}}" class="empty-btn" bindtap="onBtnClick">
+    <text>{{btnText}}</text>
+  </view>
+</view>

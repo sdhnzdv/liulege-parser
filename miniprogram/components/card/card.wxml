@@ -1,0 +1,13 @@
+<!-- 通用卡片组件 -->
+<view class="card {{shadow ? 'card-shadow' : ''}} {{border ? 'card-border' : ''}}">
+  <view wx:if="{{title}}" class="card-header">
+    <text class="card-title">{{title}}</text>
+    <text wx:if="{{tag}}" class="card-tag">{{tag}}</text>
+  </view>
+  <view class="card-body">
+    <slot></slot>
+  </view>
+  <view wx:if="{{footer}}" class="card-footer">
+    <slot name="footer"></slot>
+  </view>
+</view>

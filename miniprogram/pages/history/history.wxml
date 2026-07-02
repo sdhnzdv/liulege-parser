@@ -1,0 +1,41 @@
+<!-- 历史记录页 -->
+<nav-bar title="解析历史" />
+
+<view class="page">
+  <view class="history-list" wx:if="{{list.length > 0}}">
+    <view
+      class="history-item"
+      wx:for="{{list}}"
+      wx:key="_id"
+      bindtap="onTapItem"
+      data-item="{{item}}"
+    >
+      <image class="history-cover" src="{{item.cover}}" mode="aspectFill" />
+      <view class="history-info">
+        <text class="history-title text-ellipsis">{{item.title || '无标题'}}</text>
+        <view class="history-meta">
+          <text class="history-platform">{{platformMap[item.platform]}}</text>
+          <text class="history-time">{{item.createTimeStr}}</text>
+        </view>
+      </view>
+      <view class="history-arrow">›</view>
+    </view>
+  </view>
+
+  <loading show="{{loading}}" text="加载中..." />
+
+  <empty-state
+    wx:if="{{list.length === 0 && !loading}}"
+    icon="📋"
+    title="暂无解析记录"
+    desc="去首页粘贴链接开始解析吧"
+    showBtn="{{true}}"
+    btnText="去解析"
+    bind:btnclick="onGoParse"
+  />
+
+  <view class="load-more" wx:if="{{hasMore && list.length > 0}}">
+    <text bindtap="loadMore" wx:if="{{!loadingMore}}">加载更多</text>
+    <text wx:else>加载中...</text>
+  </view>
+</view>
