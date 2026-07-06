@@ -115,6 +115,44 @@
   color: var(--color-text-muted);
 }
 
+/* 支持平台标签 */
+.platform-tags-section {
+  margin: 32rpx 32rpx 24rpx;
+}
+
+.platform-tags-label {
+  display: block;
+  font-size: 24rpx;
+  color: var(--color-text-muted);
+  margin-bottom: 16rpx;
+  letter-spacing: 0.5rpx;
+}
+
+.platform-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.platform-tag {
+  padding: 12rpx 28rpx;
+  border-radius: 24rpx;
+  font-size: 28rpx;
+  color: var(--color-primary);
+  background-color: var(--color-bg-card);
+  border: 1rpx solid var(--color-border);
+}
+
+/* 使用提示 */
+.tips-line {
+  margin: 0 32rpx 32rpx;
+  padding: 24rpx 32rpx;
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+}
+
 /* 广告 */
 .ad-hint {
   margin: 32rpx 32rpx;

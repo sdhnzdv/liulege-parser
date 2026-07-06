@@ -54,42 +54,19 @@
   </view>
 
   <!-- 支持平台 -->
-  <view class="ios-section">
-    <view class="ios-section-header">支持平台</view>
-    <view class="ios-section-body">
-      <view class="ios-cell">
-        <text class="cell-label">抖音</text>
-        <text class="cell-value">Douyin</text>
-      </view>
-      <view class="ios-cell">
-        <text class="cell-label">快手</text>
-        <text class="cell-value">Kuaishou</text>
-      </view>
-      <view class="ios-cell">
-        <text class="cell-label">小红书</text>
-        <text class="cell-value">RED</text>
-      </view>
-      <view class="ios-cell">
-        <text class="cell-label">TikTok</text>
-        <text class="cell-value">国际版</text>
-      </view>
+  <view class="platform-tags-section">
+    <text class="platform-tags-label">支持平台</text>
+    <view class="platform-tags">
+      <view class="platform-tag">抖音</view>
+      <view class="platform-tag">快手</view>
+      <view class="platform-tag">小红书</view>
+      <view class="platform-tag">TikTok</view>
     </view>
   </view>
 
   <!-- 使用提示 -->
-  <view class="ios-section">
-    <view class="ios-section-header">使用提示</view>
-    <view class="ios-section-body">
-      <view class="ios-cell">
-        <text class="cell-label">打开抖音/快手/小红书</text>
-      </view>
-      <view class="ios-cell">
-        <text class="cell-label">点击分享 → 复制链接</text>
-      </view>
-      <view class="ios-cell">
-        <text class="cell-label">回到本小程序粘贴解析</text>
-      </view>
-    </view>
+  <view class="tips-line">
+    <text>使用提示：复制分享链接 → 粘贴 → 解析</text>
   </view>
 
   <!-- 广告 -->
