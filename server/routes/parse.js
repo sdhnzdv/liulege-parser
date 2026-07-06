@@ -154,15 +154,8 @@ async function parseByPlatform(url, platform) {
     return { success: false, message: data?.msg || data?.message || '解析失败，请检查链接是否正确' };
   } catch (e) {
     console.error('公开 API 解析失败:', e.message);
-    // 如果公开 API 也失败了，返回示例数据
-    const mockData = {
-      douyin: { title: '抖音视频示例', author: '抖音创作者', description: '视频文案 #话题', cover: 'https://picsum.photos/seed/douyin/400/600', mediaUrl: '', type: 'video' },
-      tiktok: { title: 'TikTok Video', author: 'TikTok Creator', description: 'Video description', cover: 'https://picsum.photos/seed/tiktok/400/600', mediaUrl: '', type: 'video' },
-      bilibili: { title: 'B站视频示例', author: 'B站UP主', description: '视频简介', cover: 'https://picsum.photos/seed/bilibili/400/600', mediaUrl: '', type: 'video' },
-      kuaishou: { title: '快手视频示例', author: '快手达人', description: '视频描述', cover: 'https://picsum.photos/seed/kuaishou/400/600', mediaUrl: '', type: 'video' },
-      xiaohongshu: { title: '小红书笔记示例', author: '小红书博主', description: '种草文案', cover: 'https://picsum.photos/seed/xiaohongshu/400/600', mediaUrl: '', type: 'image' }
-    };
-    return { success: true, data: mockData[platform] || mockData.douyin };
+    // 公开 API 失败时，直接告诉用户服务不可用，而不是返回示例数据
+    return { success: false, message: '公开解析服务暂不可用，请稍后重试或联系开发者' };
   }
 }
 
