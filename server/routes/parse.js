@@ -22,11 +22,15 @@ router.post('/parse', async (req, res) => {
     const openid = getOpenid(req);
     if (!openid) return res.status(401).json({ success: false, message: '未登录' });
 
-    const { url } = req.body;
+    let { url } = req.body;
     if (!url) return res.json({ success: false, message: '链接不能为空' });
 
+    // 从分享文案中自动提取真实 URL
+    const extracted = extractUrl(url);
+    if (extracted) url = extracted;
+
     const platform = detectPlatform(url);
-    if (platform === 'unknown') return res.json({ success: false, message: '不支持的平台' });
+    if (platform === 'unknown') return res.json({ success: false, message: '不支持的平台，请检查链接' });
 
     const today = getTodayStr();
 
@@ -67,6 +71,13 @@ router.post('/parse', async (req, res) => {
     return res.json({ success: false, message: '解析服务异常' });
   }
 });
+
+// 从分享文案中提取 URL
+function extractUrl(text) {
+  const regex = /(https?:\/\/[^\s\u4e00-\u9fa5]+)/i;
+  const match = text.match(regex);
+  return match ? match[1] : null;
+}
 
 function detectPlatform(url) {
   if (/douyin\.com|iesdouyin\.com|v\.douyin/i.test(url)) return 'douyin';

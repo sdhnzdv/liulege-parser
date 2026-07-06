@@ -4,7 +4,6 @@
 <view class="page" wx:if="{{result}}">
   <!-- 媒体预览区 -->
   <view class="media-preview">
-    <!-- 视频封面/图片 -->
     <image
       wx:if="{{result.cover}}"
       class="cover-image"
@@ -12,76 +11,71 @@
       mode="aspectFill"
       bindtap="onPreviewMedia"
     />
-    <!-- 视频播放按钮 -->
     <view class="play-btn" wx:if="{{result.type === 'video'}}" bindtap="onPreviewVideo">
       <text class="play-icon">▶</text>
     </view>
-    <!-- 类型标签 -->
     <view class="type-tag {{result.type}}">
       <text>{{result.type === 'video' ? '视频' : '图片'}}</text>
     </view>
   </view>
 
-  <!-- 基本信息 -->
-  <card title="📝 基本信息" tag="{{platformName}}">
+  <!-- 标题 -->
+  <card title="📝 标题">
+    <view class="text-section">
+      <text class="text-value">{{result.title || '暂无标题'}}</text>
+      <view class="copy-icon" bindtap="onCopyText" data-text="{{result.title}}">
+        <text class="copy-icon-text">📋 复制</text>
+      </view>
+    </view>
+  </card>
+
+  <!-- 作者 -->
+  <card title="👤 作者">
+    <view class="author-section">
+      <image wx:if="{{result.authorAvatar}}" class="author-avatar" src="{{result.authorAvatar}}" mode="aspectFill" />
+      <view class="author-info">
+        <text class="author-name">{{result.author || '未知'}}</text>
+        <text class="author-uid" wx:if="{{result.authorUid}}">@{{result.authorUid}}</text>
+      </view>
+      <view class="copy-icon" bindtap="onCopyText" data-text="{{result.author}}">
+        <text class="copy-icon-text">📋 复制</text>
+      </view>
+    </view>
+  </card>
+
+  <!-- 文案 -->
+  <card title="💬 文案">
+    <view class="text-section">
+      <text class="text-value desc-text">{{result.description || '暂无文案'}}</text>
+      <view class="copy-icon" bindtap="onCopyText" data-text="{{result.description}}">
+        <text class="copy-icon-text">📋 复制</text>
+      </view>
+    </view>
+  </card>
+
+  <!-- 视频信息 -->
+  <card title="📊 信息">
     <view class="info-list">
-      <view class="info-item" wx:if="{{result.title}}">
-        <text class="info-label">标题</text>
-        <text class="info-value">{{result.title}}</text>
+      <view class="info-item" wx:if="{{result.duration}}">
+        <text class="info-label">时长</text>
+        <text class="info-value">{{result.duration}}</text>
       </view>
-      <view class="info-item" wx:if="{{result.author}}">
-        <text class="info-label">作者</text>
-        <view class="author-row">
-          <image wx:if="{{result.authorAvatar}}" class="author-avatar" src="{{result.authorAvatar}}" mode="aspectFill" />
-          <text class="info-value">{{result.author}}</text>
-        </view>
+      <view class="info-item" wx:if="{{result.musicName}}">
+        <text class="info-label">音乐</text>
+        <text class="info-value">{{result.musicName}}</text>
       </view>
-      <view class="info-item" wx:if="{{result.description}}">
-        <text class="info-label">描述</text>
-        <text class="info-value desc-text">{{result.description}}</text>
+      <view class="info-item">
+        <text class="info-label">平台</text>
+        <text class="info-value">{{platformName || '未知'}}</text>
       </view>
     </view>
   </card>
 
-  <!-- 下载区域 -->
-  <card title="⬇️ 下载链接" shadow="{{true}}">
-    <view class="download-section">
-      <!-- 无水印直链 -->
-      <view class="link-row">
-        <text class="link-label">无水印直链</text>
-        <view class="link-actions">
-          <view class="link-btn copy-btn" bindtap="onCopyLink">
-            <text>📋 复制</text>
-          </view>
-        </view>
-      </view>
-      <view class="link-url text-ellipsis">
-        <text>{{result.mediaUrl || '暂无'}}</text>
-      </view>
-
-      <!-- 下载按钮组 -->
-      <view class="download-btns">
-        <button
-          wx:if="{{result.type === 'video'}}"
-          class="download-btn primary"
-          bindtap="onDownloadVideo"
-        >
-          <text>📥 下载视频</text>
-        </button>
-        <button
-          wx:if="{{result.type === 'image' || result.cover}}"
-          class="download-btn secondary"
-          bindtap="onDownloadCover"
-        >
-          <text>🖼️ 下载封面</text>
-        </button>
-      </view>
-    </view>
-  </card>
-
-  <!-- 操作提示 -->
-  <view class="action-hint">
-    <text>💡 长按封面图可保存到相册</text>
+  <!-- 下载按钮 -->
+  <view class="download-area">
+    <button class="download-btn primary" bindtap="onDownloadVideo">
+      <text>📥 下载无水印视频</text>
+    </button>
   </view>
 
   <!-- 返回首页 -->

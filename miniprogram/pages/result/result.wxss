@@ -54,100 +54,113 @@
 .type-tag.video { background-color: rgba(99, 102, 241, 0.7); }
 .type-tag.image { background-color: rgba(16, 185, 129, 0.7); }
 
-/* 信息列表 */
-.info-list {
+/* 文本区域 */
+.text-section {
   display: flex;
-  flex-direction: column;
-  gap: 20rpx;
+  align-items: flex-start;
+  gap: 16rpx;
 }
 
-.info-item {
-  display: flex;
-  flex-direction: column;
-  gap: 8rpx;
-}
-
-.info-label {
-  font-size: 24rpx;
-  color: var(--color-text-muted);
-  font-weight: 500;
-}
-
-.info-value {
+.text-value {
+  flex: 1;
   font-size: 28rpx;
   color: var(--color-text);
-  line-height: 1.5;
+  line-height: 1.6;
+  word-break: break-all;
 }
 
 .desc-text {
   color: var(--color-text-secondary);
 }
 
-.author-row {
-  display: flex;
-  align-items: center;
-  gap: 12rpx;
-}
-
-.author-avatar {
-  width: 48rpx;
-  height: 48rpx;
-  border-radius: 50%;
-}
-
-/* 下载区域 */
-.download-section {
-  display: flex;
-  flex-direction: column;
-  gap: 20rpx;
-}
-
-.link-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.link-label {
-  font-size: 26rpx;
-  font-weight: 500;
-  color: var(--color-text);
-}
-
-.link-btn {
-  padding: 8rpx 20rpx;
-  border-radius: 20rpx;
-  font-size: 22rpx;
-}
-
-.copy-btn {
-  color: var(--color-primary);
-  border: 1rpx solid var(--color-primary);
-}
-
-.link-url {
-  padding: 16rpx 20rpx;
-  background-color: var(--color-border-light);
-  border-radius: var(--radius-sm);
-  font-size: 24rpx;
-  color: var(--color-text-muted);
-  word-break: break-all;
-}
-
-.download-btns {
-  display: flex;
-  gap: 16rpx;
-  margin-top: 8rpx;
-}
-
-.download-btn {
-  flex: 1;
-  height: 80rpx;
+/* 复制按钮 */
+.copy-icon {
+  flex-shrink: 0;
+  padding: 4rpx 16rpx;
+  border-radius: 16rpx;
+  border: 1rpx solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 40rpx;
-  font-size: 28rpx;
+}
+
+.copy-icon-text {
+  font-size: 22rpx;
+  color: var(--color-text-muted);
+}
+
+.copy-icon:active {
+  background-color: var(--color-border-light);
+}
+
+/* 作者区域 */
+.author-section {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.author-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.author-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.author-name {
+  font-size: 30rpx;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.author-uid {
+  font-size: 24rpx;
+  color: var(--color-text-muted);
+}
+
+/* 信息列表 */
+.info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-label {
+  font-size: 26rpx;
+  color: var(--color-text-muted);
+}
+
+.info-value {
+  font-size: 26rpx;
+  color: var(--color-text);
+}
+
+/* 下载区域 */
+.download-area {
+  margin: 32rpx 24rpx;
+}
+
+.download-btn {
+  width: 100%;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 44rpx;
+  font-size: 30rpx;
   font-weight: 500;
   border: none;
 }
@@ -160,19 +173,6 @@
   background: linear-gradient(135deg, #6366f1, #8b5cf6);
   color: #fff;
   box-shadow: 0 6rpx 20rpx rgba(99, 102, 241, 0.3);
-}
-
-.download-btn.secondary {
-  background-color: var(--color-border-light);
-  color: var(--color-text);
-}
-
-/* 操作提示 */
-.action-hint {
-  text-align: center;
-  padding: 32rpx 32rpx 16rpx;
-  font-size: 24rpx;
-  color: var(--color-text-muted);
 }
 
 /* 返回首页 */
