@@ -100,19 +100,22 @@ async function parseByPlatform(url, platform) {
       console.log('52api 返回 code:', data.code, 'msg:', data.msg);
 
       if (data.code === 200 && data.data) {
-        // 52api 返回的 data 是字符串或对象
+        // 52api 返回字段：work_title, work_author, work_cover, work_url, music 等
         const d = typeof data.data === 'string' ? JSON.parse(data.data) : data.data;
         return {
           success: true,
           data: {
-            title: d.title || d.desc || '',
-            author: d.author || d.nickname || '',
-            description: d.desc || d.title || '',
-            cover: d.cover || d.cover_url || '',
-            mediaUrl: d.video_url || d.url || d.video || '',
-            type: d.type === 'image' || d.images ? 'image' : 'video',
-            musicUrl: d.music_url || d.music || '',
-            duration: d.duration || 0
+            title: d.work_title || d.title || '',
+            author: d.work_author || d.author || '',
+            description: d.work_title || '',
+            cover: d.work_cover || d.cover || '',
+            mediaUrl: d.work_url || d.video_url || '',
+            type: d.work_type === 'image' ? 'image' : 'video',
+            musicUrl: d.music?.url || d.music_url || '',
+            musicName: d.music?.name || '',
+            duration: d.work_duration || '',
+            authorAvatar: d.work_avatar || '',
+            authorUid: d.work_uid || ''
           }
         };
       }
