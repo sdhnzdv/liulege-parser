@@ -4,19 +4,8 @@ const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
-// 用户 Schema 内联定义，避免 model 文件导入失败
-const userSchema = new mongoose.Schema({
-  openid: { type: String, required: true, unique: true },
-  dailyQuota: {
-    date: { type: String, default: '' },
-    used: { type: Number, default: 0 },
-    limit: { type: Number, default: 5 },
-    bonus: { type: Number, default: 0 }
-  },
-  totalParsed: { type: Number, default: 0 },
-  createTime: { type: Date, default: Date.now }
-});
-const User = mongoose.models.User || mongoose.model('User', userSchema);
+const User = mongoose.models.User;
+const History = mongoose.models.History;
 
 router.post('/login', async (req, res) => {
   try {
@@ -29,7 +18,6 @@ router.post('/login', async (req, res) => {
       return res.json({ success: false, message: 'WX_APPID 或 WX_SECRET 未配置' });
     }
 
-    // 调用微信接口
     const wxUrl = `https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${secret}&js_code=${code}&grant_type=authorization_code`;
     const wxRes = await axios.get(wxUrl, { timeout: 10000 });
 
@@ -55,7 +43,6 @@ router.post('/login', async (req, res) => {
         console.error('创建用户失败:', err.message);
         return null;
       });
-      console.log('新用户创建:', openid);
     }
 
     const token = jwt.sign({ openid }, process.env.JWT_SECRET || 'default', { expiresIn: '7d' });
@@ -65,7 +52,7 @@ router.post('/login', async (req, res) => {
       quota = { date: today, used: 0, limit: 5, bonus: 0 };
       if (user) {
         user.dailyQuota = quota;
-        await user.save().catch((e) => console.error('保存配额失败:', e.message));
+        await user.save().catch(() => {});
       }
     }
 

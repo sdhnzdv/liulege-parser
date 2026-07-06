@@ -3,7 +3,6 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
-// 复用已有的 User model，不重新定义
 const User = mongoose.models.User;
 
 router.get('/quota', async (req, res) => {
@@ -12,15 +11,12 @@ router.get('/quota', async (req, res) => {
     let openid = '';
     if (token && token.startsWith('Bearer ')) {
       try {
-        const d = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET || 'default');
-        openid = d.openid;
+        openid = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET || 'default').openid;
       } catch (e) {}
     }
-    if (!openid) return res.json({ used: 0, limit: 5, remaining: 5, bonus: 0 });
+    if (!openid || !User) return res.json({ used: 0, limit: 5, remaining: 5, bonus: 0 });
 
     const today = getTodayStr();
-    if (!User) return res.json({ used: 0, limit: 5, remaining: 5, bonus: 0 });
-
     let user = await User.findOne({ openid }).catch(() => null);
     if (!user) return res.json({ used: 0, limit: 5, remaining: 5, bonus: 0 });
 
@@ -32,7 +28,7 @@ router.get('/quota', async (req, res) => {
     }
 
     const limit = quota.limit + (quota.bonus || 0);
-    return res.json({ used: quota.used, limit, remaining: Math.max(0, limit - quota.used), bonus: quota.bonus || 0, date: quota.date });
+    return res.json({ used: quota.used, limit, remaining: Math.max(0, limit - quota.used), bonus: quota.bonus || 0 });
   } catch (err) {
     console.error('quota error:', err.message);
     return res.json({ used: 0, limit: 5, remaining: 5, bonus: 0 });
@@ -50,9 +46,7 @@ router.post('/quota/bonus', async (req, res) => {
         return res.status(401).json({ success: false, message: '未登录' });
       }
     }
-    if (!openid) return res.status(401).json({ success: false, message: '未登录' });
-
-    if (!User) return res.json({ success: false, message: '数据库未就绪' });
+    if (!openid || !User) return res.status(401).json({ success: false, message: '未登录' });
 
     const today = getTodayStr();
     let user = await User.findOne({ openid }).catch(() => null);
