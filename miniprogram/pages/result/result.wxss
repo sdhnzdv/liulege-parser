@@ -1,14 +1,14 @@
-/* 结果页样式 */
+/* 结果页 - iOS 风格 */
 .page {
   min-height: 100vh;
-  padding-bottom: 40rpx;
+  padding-bottom: 60rpx;
 }
 
-/* 媒体预览 */
-.media-preview {
+/* 封面 */
+.cover-section {
   position: relative;
-  margin: 24rpx;
-  border-radius: var(--radius-md);
+  margin: 0 32rpx 24rpx;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   background-color: #000;
 }
@@ -19,174 +19,126 @@
   display: block;
 }
 
-.play-btn {
+.cover-overlay {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.play-circle {
   width: 100rpx;
   height: 100rpx;
   border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(10rpx);
 }
 
 .play-icon {
-  font-size: 40rpx;
-  color: #fff;
-  margin-left: 6rpx;
+  font-size: 36rpx;
+  color: #007aff;
+  margin-left: 4rpx;
 }
 
-.type-tag {
-  position: absolute;
-  top: 20rpx;
-  right: 20rpx;
-  padding: 6rpx 20rpx;
-  border-radius: 20rpx;
-  font-size: 22rpx;
-  color: #fff;
-  backdrop-filter: blur(20rpx);
-}
-
-.type-tag.video { background-color: rgba(99, 102, 241, 0.7); }
-.type-tag.image { background-color: rgba(16, 185, 129, 0.7); }
-
-/* 文本区域 */
-.text-section {
+/* 文本卡片 */
+.text-cell {
   display: flex;
   align-items: flex-start;
   gap: 16rpx;
+  padding: 24rpx 32rpx;
+  background-color: var(--color-bg-card);
 }
 
-.text-value {
+.text-cell-content {
   flex: 1;
-  font-size: 28rpx;
+  font-size: 30rpx;
   color: var(--color-text);
   line-height: 1.6;
-  word-break: break-all;
 }
 
-.desc-text {
+.text-cell-content.secondary {
   color: var(--color-text-secondary);
+  font-size: 28rpx;
 }
 
-/* 复制按钮 */
-.copy-icon {
+/* 拷贝按钮 */
+.copy-tap {
   flex-shrink: 0;
-  padding: 4rpx 16rpx;
-  border-radius: 16rpx;
+  padding: 6rpx 20rpx;
+  border-radius: 20rpx;
   border: 1rpx solid var(--color-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  align-self: flex-start;
+  margin-top: 4rpx;
 }
 
-.copy-icon-text {
+.copy-tap:active {
+  background-color: var(--color-cell-highlight);
+}
+
+.copy-tap-text {
   font-size: 22rpx;
-  color: var(--color-text-muted);
+  color: var(--color-primary);
 }
 
-.copy-icon:active {
-  background-color: var(--color-border-light);
-}
-
-/* 作者区域 */
-.author-section {
-  display: flex;
-  align-items: center;
-  gap: 16rpx;
-}
-
-.author-avatar {
-  width: 80rpx;
-  height: 80rpx;
+/* 作者头像 */
+.cell-avatar {
+  width: 68rpx;
+  height: 68rpx;
   border-radius: 50%;
   flex-shrink: 0;
 }
 
-.author-info {
+.cell-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 4rpx;
 }
 
-.author-name {
-  font-size: 30rpx;
-  color: var(--color-text);
-  font-weight: 500;
-}
-
-.author-uid {
+.cell-desc {
   font-size: 24rpx;
   color: var(--color-text-muted);
 }
 
-/* 信息列表 */
-.info-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16rpx;
-}
-
-.info-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.info-label {
-  font-size: 26rpx;
-  color: var(--color-text-muted);
-}
-
-.info-value {
-  font-size: 26rpx;
-  color: var(--color-text);
-}
-
-/* 下载区域 */
-.download-area {
-  margin: 32rpx 24rpx;
+/* 下载按钮 */
+.download-section {
+  padding: 32rpx 32rpx 16rpx;
 }
 
 .download-btn {
   width: 100%;
-  height: 88rpx;
+  height: 96rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 44rpx;
+  border-radius: var(--radius-md);
   font-size: 30rpx;
-  font-weight: 500;
-  border: none;
-}
-
-.download-btn::after {
-  border: none;
-}
-
-.download-btn.primary {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: #fff;
-  box-shadow: 0 6rpx 20rpx rgba(99, 102, 241, 0.3);
+  font-weight: 600;
+  box-shadow: 0 4rpx 16rpx rgba(0, 122, 255, 0.3);
 }
 
 /* 返回首页 */
-.back-home-section {
-  margin: 0 24rpx 40rpx;
+.back-section {
+  margin: 0 32rpx;
   padding: 24rpx 0;
   text-align: center;
-  border-radius: var(--radius-md);
   background-color: var(--color-bg-card);
-  border: 1rpx solid var(--color-border-light);
+  border-radius: var(--radius-md);
 }
 
-.back-home-text {
-  font-size: 28rpx;
+.back-section:active {
+  background-color: var(--color-cell-highlight);
+}
+
+.back-text {
+  font-size: 30rpx;
   color: var(--color-primary);
   font-weight: 500;
 }

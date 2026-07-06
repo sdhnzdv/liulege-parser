@@ -1,45 +1,42 @@
-/* 个人中心样式 */
+/* 个人中心页 - iOS 风格 */
 .page {
   min-height: 100vh;
-  padding-bottom: 40rpx;
+  padding-bottom: 60rpx;
 }
 
-/* 用户卡片 */
-.user-card {
+/* 用户区域 */
+.user-section {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: 48rpx 32rpx 32rpx;
-  gap: 24rpx;
-}
-
-.user-avatar-wrapper {
-  flex-shrink: 0;
+  padding: 48rpx 0 40rpx;
+  background: linear-gradient(180deg, rgba(0, 122, 255, 0.04) 0%, transparent 100%);
 }
 
 .user-avatar {
   width: 120rpx;
   height: 120rpx;
   border-radius: 50%;
+  margin-bottom: 20rpx;
+  background-color: var(--color-border-light);
 }
 
 .default-avatar {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 56rpx;
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.1), rgba(88, 86, 214, 0.1));
 }
 
-.user-info {
-  display: flex;
-  flex-direction: column;
-  gap: 8rpx;
+.avatar-emoji {
+  font-size: 56rpx;
 }
 
 .user-name {
   font-size: 36rpx;
   font-weight: 600;
   color: var(--color-text);
+  margin-bottom: 6rpx;
 }
 
 .user-id {
@@ -47,57 +44,14 @@
   color: var(--color-text-muted);
 }
 
-/* 配额详情 */
-.quota-detail {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28rpx;
-}
-
-.quota-circle {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 4rpx;
-  padding: 24rpx 0;
-}
-
-.quota-remaining {
-  font-size: 72rpx;
-  font-weight: 700;
-  color: var(--color-primary);
-  line-height: 1;
-}
-
-.quota-sep {
-  font-size: 36rpx;
-  color: var(--color-text-muted);
-}
-
-.quota-limit {
-  font-size: 36rpx;
-  color: var(--color-text-muted);
-  font-weight: 500;
-}
-
-.quota-label {
-  display: block;
-  text-align: center;
-  font-size: 24rpx;
-  color: var(--color-text-muted);
-  margin-top: 8rpx;
-}
-
-.quota-stats {
+/* 配额行 */
+.quota-row {
   display: flex;
   align-items: center;
-  width: 100%;
-  padding: 24rpx 0;
-  border-top: 1rpx solid var(--color-border-light);
+  padding: 32rpx 0;
 }
 
-.stat-item {
+.quota-item {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -105,72 +59,34 @@
   gap: 6rpx;
 }
 
-.stat-num {
+.quota-num {
   font-size: 40rpx;
-  font-weight: 600;
-  color: var(--color-text);
+  font-weight: 700;
+  color: var(--color-primary);
 }
 
-.stat-label {
+.quota-label {
   font-size: 24rpx;
   color: var(--color-text-muted);
 }
 
-.stat-divider {
+.quota-divider {
   width: 1rpx;
   height: 48rpx;
-  background-color: var(--color-border-light);
+  background-color: var(--color-separator);
 }
 
-/* 菜单列表 */
-.menu-list {
-  margin: 24rpx 24rpx;
-  background-color: var(--color-bg-card);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-
-.menu-item {
-  display: flex;
-  align-items: center;
-  padding: 28rpx;
-  gap: 20rpx;
-  border-bottom: 1rpx solid var(--color-border-light);
-}
-
-.menu-item:last-child {
-  border-bottom: none;
-}
-
-.menu-item:active {
-  background-color: var(--color-border-light);
-}
-
-.menu-icon {
-  font-size: 36rpx;
-}
-
-.menu-text {
-  flex: 1;
-  font-size: 28rpx;
-  color: var(--color-text);
-}
-
-.menu-arrow {
+/* 箭头 */
+.cell-arrow {
   font-size: 32rpx;
   color: var(--color-text-muted);
+  font-weight: 300;
 }
 
 /* 版本 */
-.version-info {
+.version-text {
   text-align: center;
-  padding: 48rpx;
-  display: flex;
-  flex-direction: column;
-  gap: 8rpx;
-}
-
-.version-info text {
+  padding: 40rpx;
   font-size: 24rpx;
   color: var(--color-text-muted);
 }

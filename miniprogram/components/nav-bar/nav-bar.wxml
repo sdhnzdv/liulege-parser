@@ -1,9 +1,10 @@
-<!-- 自定义导航栏 -->
+<!-- 自定义导航栏 - iOS 风格 -->
 <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
   <view class="nav-bar-content" style="height: {{navBarHeight}}px;">
     <slot name="left">
       <view class="nav-back" wx:if="{{showBack}}" bindtap="onBack">
-        <text class="iconfont icon-back">‹</text>
+        <text class="back-arrow">‹</text>
+        <text class="back-label">返回</text>
       </view>
     </slot>
     <view class="nav-title">{{title}}</view>

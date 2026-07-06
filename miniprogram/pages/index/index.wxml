@@ -1,92 +1,99 @@
-<!-- 首页 - 链接解析 -->
-<nav-bar title="六了个六解析助手" />
+<!-- 首页 - iOS 风格 -->
+<nav-bar title="六了个六" />
 
 <view class="page">
-  <!-- 顶部 Banner -->
-  <view class="hero-section">
-    <view class="hero-badge">
-      <text>📱 支持抖音 · 快手 · 小红书</text>
-    </view>
+  <!-- 顶部渐变区域 -->
+  <view class="hero-gradient">
     <text class="hero-title">粘贴分享链接</text>
-    <text class="hero-subtitle">一键解析无水印视频和图片</text>
+    <text class="hero-subtitle">一键解析无水印视频</text>
   </view>
 
-  <!-- 输入区域 -->
-  <card shadow="{{true}}">
-    <view class="input-area">
-      <view class="platform-badge" wx:if="{{platform !== 'unknown'}}">
-        <text>{{platformIcon}} {{platformName}}</text>
-      </view>
+  <!-- 输入卡片 -->
+  <view class="ios-section">
+    <view class="ios-section-body">
       <textarea
         class="url-input"
         value="{{inputUrl}}"
         placeholder="粘贴抖音/快手/小红书分享链接..."
-        placeholder-style="color: var(--color-text-muted);"
+        placeholder-style="color: #c7c7cc;"
         auto-height
         maxlength="500"
         bindinput="onInput"
-        bindblur="onBlur"
         confirm-type="done"
         cursor-spacing="20"
       />
-      <view class="input-actions">
-        <view class="action-btn paste-btn" bindtap="onPaste">
-          <text>📋 粘贴</text>
-        </view>
-        <view class="action-btn clear-btn" bindtap="onClear" wx:if="{{inputUrl}}">
-          <text>✕ 清空</text>
-        </view>
-      </view>
     </view>
-  </card>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-row">
+    <view class="ios-btn secondary" bindtap="onPaste">
+      <text>从剪贴板粘贴</text>
+    </view>
+    <view class="ios-btn secondary" bindtap="onClear" wx:if="{{inputUrl}}">
+      <text>清空</text>
+    </view>
+  </view>
 
   <!-- 解析按钮 -->
   <view class="parse-section">
     <button
-      class="parse-btn {{canParse ? '' : 'disabled'}}"
+      class="parse-btn btn-gradient {{canParse ? '' : 'disabled'}}"
       bindtap="onParse"
       disabled="{{!canParse || parsing}}"
       loading="{{parsing}}"
     >
-      <text wx:if="{{!parsing}}">⚡ 立即解析</text>
-      <text wx:else>解析中...</text>
+      <text wx:if="{{!parsing}}">解析</text>
+      <text wx:else>解析中</text>
     </button>
   </view>
 
-  <!-- 配额信息 -->
-  <view class="quota-bar">
-    <text>今日剩余 <text class="quota-num">{{remainingQuota}}</text> 次解析</text>
-    <text class="quota-total">/ {{quotaLimit}}次</text>
+  <!-- 配额 -->
+  <view class="quota-info">
+    <text class="quota-text">今日剩余 <text class="quota-num">{{remainingQuota}}</text> 次</text>
   </view>
 
-  <!-- 平台支持 -->
-  <view class="platform-list">
-    <view class="platform-item">
-      <view class="platform-icon douyin">🎵</view>
-      <text>抖音</text>
-    </view>
-    <view class="platform-item">
-      <view class="platform-icon kuaishou">📹</view>
-      <text>快手</text>
-    </view>
-    <view class="platform-item">
-      <view class="platform-icon xiaohongshu">📕</view>
-      <text>小红书</text>
+  <!-- 支持平台 -->
+  <view class="ios-section">
+    <view class="ios-section-header">支持平台</view>
+    <view class="ios-section-body">
+      <view class="ios-cell">
+        <text class="cell-label">抖音</text>
+        <text class="cell-value">Douyin</text>
+      </view>
+      <view class="ios-cell">
+        <text class="cell-label">快手</text>
+        <text class="cell-value">Kuaishou</text>
+      </view>
+      <view class="ios-cell">
+        <text class="cell-label">小红书</text>
+        <text class="cell-value">RED</text>
+      </view>
+      <view class="ios-cell">
+        <text class="cell-label">TikTok</text>
+        <text class="cell-value">国际版</text>
+      </view>
     </view>
   </view>
 
   <!-- 使用提示 -->
-  <view class="tips-section">
-    <text class="tips-title">💡 使用提示</text>
-    <view class="tips-list">
-      <text>1. 打开抖音/快手/小红书 App</text>
-      <text>2. 点击分享按钮 → 复制链接</text>
-      <text>3. 回到本小程序粘贴链接即可解析</text>
+  <view class="ios-section">
+    <view class="ios-section-header">使用提示</view>
+    <view class="ios-section-body">
+      <view class="ios-cell">
+        <text class="cell-label">打开抖音/快手/小红书</text>
+      </view>
+      <view class="ios-cell">
+        <text class="cell-label">点击分享 → 复制链接</text>
+      </view>
+      <view class="ios-cell">
+        <text class="cell-label">回到本小程序粘贴解析</text>
+      </view>
     </view>
   </view>
 
-  <!-- 广告区域（激励视频广告占位） -->
-  <view class="ad-placeholder" wx:if="{{showAdHint}}">
-    <text class="ad-text">🎬 观看激励视频可获取更多解析次数</text>
+  <!-- 广告 -->
+  <view class="ad-hint" wx:if="{{showAdHint}}">
+    <text class="ad-hint-text">观看广告获取更多解析次数</text>
   </view>
 </view>

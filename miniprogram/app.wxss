@@ -1,51 +1,62 @@
-/* app.wxss - 全局样式 */
+/* app.wxss - iOS 设置风格 + 渐变风 */
 page {
-  --color-primary: #6366f1;
-  --color-primary-light: #818cf8;
-  --color-primary-dark: #4f46e5;
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-danger: #ef4444;
-  --color-bg: #f5f5f5;
+  /* iOS 风格色彩 */
+  --color-primary: #007aff;
+  --color-primary-light: #3395ff;
+  --color-primary-dark: #0062cc;
+  --color-gradient-start: #007aff;
+  --color-gradient-end: #5856d6;
+  --color-success: #34c759;
+  --color-warning: #ff9500;
+  --color-danger: #ff3b30;
+  --color-bg: #f2f2f7;
   --color-bg-card: #ffffff;
-  --color-text: #1f2937;
-  --color-text-secondary: #6b7280;
-  --color-text-muted: #9ca3af;
-  --color-border: #e5e7eb;
-  --color-border-light: #f3f4f6;
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-  --radius-sm: 8rpx;
-  --radius-md: 16rpx;
-  --radius-lg: 24rpx;
-  --radius-xl: 32rpx;
+  --color-bg-grouped: #f2f2f7;
+  --color-text: #000000;
+  --color-text-secondary: #3c3c43;
+  --color-text-muted: #8e8e93;
+  --color-separator: #c6c6c8;
+  --color-border: #e5e5ea;
+  --color-border-light: #f2f2f7;
+  --color-cell-highlight: #d1d1d6;
+  --shadow-sm: none;
+  --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --radius-sm: 6rpx;
+  --radius-md: 12rpx;
+  --radius-lg: 16rpx;
+  --radius-xl: 20rpx;
 
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
-    'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial,
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   font-size: 28rpx;
   color: var(--color-text);
   background-color: var(--color-bg);
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* 深色模式变量覆盖 */
+/* 深色模式 */
 @media (prefers-color-scheme: dark) {
   page {
-    --color-primary: #818cf8;
-    --color-primary-light: #a5b4fc;
-    --color-primary-dark: #6366f1;
-    --color-bg: #0f172a;
-    --color-bg-card: #1e293b;
-    --color-text: #f1f5f9;
-    --color-text-secondary: #94a3b8;
-    --color-text-muted: #64748b;
-    --color-border: #334155;
-    --color-border-light: #1e293b;
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+    --color-primary: #0a84ff;
+    --color-primary-light: #409cff;
+    --color-primary-dark: #0066d6;
+    --color-gradient-start: #0a84ff;
+    --color-gradient-end: #5e5ce6;
+    --color-bg: #000000;
+    --color-bg-card: #1c1c1e;
+    --color-bg-grouped: #000000;
+    --color-text: #ffffff;
+    --color-text-secondary: #aeaeb2;
+    --color-text-muted: #636366;
+    --color-separator: #38383a;
+    --color-border: #38383a;
+    --color-border-light: #1c1c1e;
+    --color-cell-highlight: #2c2c2e;
+    --shadow-sm: none;
+    --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.6);
   }
 }
 
@@ -84,4 +95,60 @@ page {
 .safe-area-bottom {
   padding-bottom: constant(safe-area-inset-bottom);
   padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* iOS 风格渐变按钮 */
+.btn-gradient {
+  background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  letter-spacing: 0.5rpx;
+}
+
+.btn-gradient::after {
+  border: none;
+}
+
+.btn-gradient:active {
+  opacity: 0.85;
+}
+
+/* iOS 风格列表项 */
+.ios-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+  background-color: var(--color-bg-card);
+  min-height: 88rpx;
+}
+
+.ios-cell:active {
+  background-color: var(--color-cell-highlight);
+}
+
+.ios-cell + .ios-cell {
+  border-top: 1rpx solid var(--color-separator);
+}
+
+/* iOS 风格分组 */
+.ios-section {
+  margin: 32rpx 0;
+}
+
+.ios-section-header {
+  padding: 0 32rpx 12rpx;
+  font-size: 24rpx;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5rpx;
+}
+
+.ios-section-body {
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  margin: 0 32rpx;
+  overflow: hidden;
 }

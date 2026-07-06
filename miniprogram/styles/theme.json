@@ -1,18 +1,18 @@
 {
   "light": {
-    "colorPrimary": "#6366f1",
-    "colorBg": "#f5f5f5",
+    "colorPrimary": "#007aff",
+    "colorBg": "#f2f2f7",
     "colorBgCard": "#ffffff",
-    "colorText": "#1f2937",
-    "colorTextSecondary": "#6b7280",
-    "colorBorder": "#e5e7eb"
+    "colorText": "#000000",
+    "colorTextSecondary": "#3c3c43",
+    "colorBorder": "#c6c6c8"
   },
   "dark": {
-    "colorPrimary": "#818cf8",
-    "colorBg": "#0f172a",
-    "colorBgCard": "#1e293b",
-    "colorText": "#f1f5f9",
-    "colorTextSecondary": "#94a3b8",
-    "colorBorder": "#334155"
+    "colorPrimary": "#0a84ff",
+    "colorBg": "#000000",
+    "colorBgCard": "#1c1c1e",
+    "colorText": "#ffffff",
+    "colorTextSecondary": "#aeaeb2",
+    "colorBorder": "#38383a"
   }
 }

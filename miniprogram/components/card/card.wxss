@@ -1,43 +1,38 @@
+/* 卡片组件 - iOS 风格 */
 .card {
+  margin: 0 32rpx 24rpx;
   background-color: var(--color-bg-card);
   border-radius: var(--radius-md);
   overflow: hidden;
-  margin: 16rpx 24rpx;
-}
-
-.card-shadow {
-  box-shadow: var(--shadow-md);
-}
-
-.card-border {
-  border: 1rpx solid var(--color-border-light);
 }
 
 .card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24rpx 28rpx 0;
+  padding: 24rpx 32rpx 12rpx;
 }
 
 .card-title {
-  font-size: 30rpx;
-  font-weight: 600;
-  color: var(--color-text);
+  font-size: 24rpx;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5rpx;
 }
 
 .card-tag {
   font-size: 22rpx;
-  color: var(--color-primary);
-  background-color: rgba(99, 102, 241, 0.1);
-  padding: 4rpx 16rpx;
-  border-radius: 20rpx;
+  color: var(--color-text-muted);
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  background-color: var(--color-border-light);
 }
 
 .card-body {
-  padding: 24rpx 28rpx;
+  padding: 0;
 }
 
 .card-footer {
-  padding: 0 28rpx 24rpx;
+  padding: 16rpx 32rpx;
+  border-top: 1rpx solid var(--color-separator);
 }

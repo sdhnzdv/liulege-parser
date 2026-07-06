@@ -1,24 +1,23 @@
-<!-- 历史记录页 -->
+<!-- 历史记录页 - iOS 风格 -->
 <nav-bar title="解析历史" />
 
 <view class="page">
-  <view class="history-list" wx:if="{{list.length > 0}}">
-    <view
-      class="history-item"
-      wx:for="{{list}}"
-      wx:key="_id"
-      bindtap="onTapItem"
-      data-item="{{item}}"
-    >
-      <image class="history-cover" src="{{item.cover}}" mode="aspectFill" />
-      <view class="history-info">
-        <text class="history-title text-ellipsis">{{item.title || '无标题'}}</text>
-        <view class="history-meta">
-          <text class="history-platform">{{platformMap[item.platform]}}</text>
-          <text class="history-time">{{item.createTimeStr}}</text>
+  <view class="ios-section" wx:if="{{list.length > 0}}">
+    <view class="ios-section-body">
+      <view
+        class="ios-cell history-cell"
+        wx:for="{{list}}"
+        wx:key="_id"
+        bindtap="onTapItem"
+        data-item="{{item}}"
+      >
+        <image class="history-cover" src="{{item.cover}}" mode="aspectFill" />
+        <view class="history-info">
+          <text class="history-title text-ellipsis">{{item.title || '无标题'}}</text>
+          <text class="history-meta">{{platformMap[item.platform]}} · {{item.createTimeStr}}</text>
         </view>
+        <text class="cell-arrow">›</text>
       </view>
-      <view class="history-arrow">›</view>
     </view>
   </view>
 
@@ -26,9 +25,9 @@
 
   <empty-state
     wx:if="{{list.length === 0 && !loading}}"
-    icon="📋"
+    icon=""
     title="暂无解析记录"
-    desc="去首页粘贴链接开始解析吧"
+    desc="去首页粘贴链接开始解析"
     showBtn="{{true}}"
     btnText="去解析"
     bind:btnclick="onGoParse"

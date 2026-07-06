@@ -1,9 +1,9 @@
-<!-- 解析结果页 -->
+<!-- 结果页 - iOS 风格 -->
 <nav-bar title="解析结果" showBack="{{true}}" />
 
 <view class="page" wx:if="{{result}}">
-  <!-- 媒体预览区 -->
-  <view class="media-preview">
+  <!-- 封面预览 -->
+  <view class="cover-section">
     <image
       wx:if="{{result.cover}}"
       class="cover-image"
@@ -11,76 +11,84 @@
       mode="aspectFill"
       bindtap="onPreviewMedia"
     />
-    <view class="play-btn" wx:if="{{result.type === 'video'}}" bindtap="onPreviewVideo">
-      <text class="play-icon">▶</text>
-    </view>
-    <view class="type-tag {{result.type}}">
-      <text>{{result.type === 'video' ? '视频' : '图片'}}</text>
+    <view class="cover-overlay" wx:if="{{result.type === 'video'}}" bindtap="onDownloadVideo">
+      <view class="play-circle">
+        <text class="play-icon">▶</text>
+      </view>
     </view>
   </view>
 
   <!-- 标题 -->
-  <card title="📝 标题">
-    <view class="text-section">
-      <text class="text-value">{{result.title || '暂无标题'}}</text>
-      <view class="copy-icon" bindtap="onCopyText" data-text="{{result.title}}">
-        <text class="copy-icon-text">📋 复制</text>
+  <view class="ios-section">
+    <view class="ios-section-body">
+      <view class="text-cell">
+        <text class="text-cell-content">{{result.title || '暂无标题'}}</text>
+        <view class="copy-tap" bindtap="onCopyText" data-text="{{result.title}}">
+          <text class="copy-tap-text">拷贝</text>
+        </view>
       </view>
     </view>
-  </card>
+  </view>
 
   <!-- 作者 -->
-  <card title="👤 作者">
-    <view class="author-section">
-      <image wx:if="{{result.authorAvatar}}" class="author-avatar" src="{{result.authorAvatar}}" mode="aspectFill" />
-      <view class="author-info">
-        <text class="author-name">{{result.author || '未知'}}</text>
-        <text class="author-uid" wx:if="{{result.authorUid}}">@{{result.authorUid}}</text>
-      </view>
-      <view class="copy-icon" bindtap="onCopyText" data-text="{{result.author}}">
-        <text class="copy-icon-text">📋 复制</text>
+  <view class="ios-section">
+    <view class="ios-section-header">作者</view>
+    <view class="ios-section-body">
+      <view class="ios-cell">
+        <image wx:if="{{result.authorAvatar}}" class="cell-avatar" src="{{result.authorAvatar}}" mode="aspectFill" />
+        <view class="cell-content">
+          <text class="cell-label">{{result.author || '未知'}}</text>
+          <text class="cell-desc" wx:if="{{result.authorUid}}">@{{result.authorUid}}</text>
+        </view>
+        <view class="copy-tap" bindtap="onCopyText" data-text="{{result.author}}">
+          <text class="copy-tap-text">拷贝</text>
+        </view>
       </view>
     </view>
-  </card>
+  </view>
 
   <!-- 文案 -->
-  <card title="💬 文案">
-    <view class="text-section">
-      <text class="text-value desc-text">{{result.description || '暂无文案'}}</text>
-      <view class="copy-icon" bindtap="onCopyText" data-text="{{result.description}}">
-        <text class="copy-icon-text">📋 复制</text>
+  <view class="ios-section">
+    <view class="ios-section-header">文案</view>
+    <view class="ios-section-body">
+      <view class="text-cell">
+        <text class="text-cell-content secondary">{{result.description || '暂无文案'}}</text>
+        <view class="copy-tap" bindtap="onCopyText" data-text="{{result.description}}">
+          <text class="copy-tap-text">拷贝</text>
+        </view>
       </view>
     </view>
-  </card>
+  </view>
 
   <!-- 视频信息 -->
-  <card title="📊 信息">
-    <view class="info-list">
-      <view class="info-item" wx:if="{{result.duration}}">
-        <text class="info-label">时长</text>
-        <text class="info-value">{{result.duration}}</text>
+  <view class="ios-section">
+    <view class="ios-section-header">信息</view>
+    <view class="ios-section-body">
+      <view class="ios-cell" wx:if="{{result.duration}}">
+        <text class="cell-label">时长</text>
+        <text class="cell-value">{{result.duration}}</text>
       </view>
-      <view class="info-item" wx:if="{{result.musicName}}">
-        <text class="info-label">音乐</text>
-        <text class="info-value">{{result.musicName}}</text>
+      <view class="ios-cell" wx:if="{{result.musicName}}">
+        <text class="cell-label">音乐</text>
+        <text class="cell-value text-ellipsis">{{result.musicName}}</text>
       </view>
-      <view class="info-item">
-        <text class="info-label">平台</text>
-        <text class="info-value">{{platformName || '未知'}}</text>
+      <view class="ios-cell">
+        <text class="cell-label">平台</text>
+        <text class="cell-value">{{platformName || '未知'}}</text>
       </view>
     </view>
-  </card>
+  </view>
 
   <!-- 下载按钮 -->
-  <view class="download-area">
-    <button class="download-btn primary" bindtap="onDownloadVideo">
-      <text>📥 下载无水印视频</text>
+  <view class="download-section">
+    <button class="download-btn btn-gradient" bindtap="onDownloadVideo">
+      <text>下载无水印视频</text>
     </button>
   </view>
 
   <!-- 返回首页 -->
-  <view class="back-home-section" bindtap="onGoHome">
-    <text class="back-home-text">↩ 返回首页</text>
+  <view class="back-section" bindtap="onGoHome">
+    <text class="back-text">返回首页</text>
   </view>
 </view>
 
@@ -88,7 +96,7 @@
 
 <empty-state
   wx:if="{{!result && !loading}}"
-  icon="🔍"
+  icon=""
   title="暂无数据"
   desc="返回首页重新解析"
   showBtn="{{true}}"

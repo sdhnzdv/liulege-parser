@@ -1,76 +1,68 @@
-<!-- 个人中心页 -->
+<!-- 个人中心页 - iOS 风格 -->
 <nav-bar title="我的" />
 
 <view class="page">
   <!-- 用户信息 -->
-  <view class="user-card">
-    <view class="user-avatar-wrapper">
-      <image
-        wx:if="{{userInfo && userInfo.avatarUrl}}"
-        class="user-avatar"
-        src="{{userInfo.avatarUrl}}"
-        mode="aspectFill"
-      />
-      <view wx:else class="user-avatar default-avatar">
-        <text>😊</text>
-      </view>
+  <view class="user-section">
+    <image
+      wx:if="{{userInfo && userInfo.avatarUrl}}"
+      class="user-avatar"
+      src="{{userInfo.avatarUrl}}"
+      mode="aspectFill"
+    />
+    <view wx:else class="user-avatar default-avatar">
+      <text class="avatar-emoji">😊</text>
     </view>
-    <view class="user-info">
-      <text class="user-name">{{userInfo ? userInfo.nickName : '微信用户'}}</text>
-      <text class="user-id">ID: {{openid ? openid.substring(0, 12) + '...' : '未登录'}}</text>
-    </view>
+    <text class="user-name">{{userInfo ? userInfo.nickName : '微信用户'}}</text>
+    <text class="user-id">ID: {{openid ? openid.substring(0, 12) + '...' : '未登录'}}</text>
   </view>
 
-  <!-- 配额信息 -->
-  <card title="📊 解析配额" shadow="{{true}}">
-    <view class="quota-detail">
-      <view class="quota-circle">
-        <text class="quota-remaining">{{quota.remaining}}</text>
-        <text class="quota-sep">/</text>
-        <text class="quota-limit">{{quota.limit}}</text>
-        <text class="quota-label">今日剩余</text>
-      </view>
-      <view class="quota-stats">
-        <view class="stat-item">
-          <text class="stat-num">{{quota.used}}</text>
-          <text class="stat-label">已使用</text>
+  <!-- 配额 -->
+  <view class="ios-section">
+    <view class="ios-section-body">
+      <view class="quota-row">
+        <view class="quota-item">
+          <text class="quota-num">{{quota.remaining}}</text>
+          <text class="quota-label">今日剩余</text>
         </view>
-        <view class="stat-divider"></view>
-        <view class="stat-item">
-          <text class="stat-num">{{totalParsed}}</text>
-          <text class="stat-label">累计解析</text>
+        <view class="quota-divider"></view>
+        <view class="quota-item">
+          <text class="quota-num">{{quota.used}}</text>
+          <text class="quota-label">已使用</text>
+        </view>
+        <view class="quota-divider"></view>
+        <view class="quota-item">
+          <text class="quota-num">{{totalParsed}}</text>
+          <text class="quota-label">累计解析</text>
         </view>
       </view>
     </view>
-  </card>
+  </view>
 
-  <!-- 功能列表 -->
-  <view class="menu-list">
-    <view class="menu-item" bindtap="onGoHistory">
-      <text class="menu-icon">📋</text>
-      <text class="menu-text">解析历史</text>
-      <text class="menu-arrow">›</text>
-    </view>
-    <view class="menu-item" bindtap="onClearCache">
-      <text class="menu-icon">🧹</text>
-      <text class="menu-text">清除缓存</text>
-      <text class="menu-arrow">›</text>
-    </view>
-    <view class="menu-item" bindtap="onFeedback">
-      <text class="menu-icon">💬</text>
-      <text class="menu-text">意见反馈</text>
-      <text class="menu-arrow">›</text>
-    </view>
-    <view class="menu-item" bindtap="onAbout">
-      <text class="menu-icon">ℹ️</text>
-      <text class="menu-text">关于我们</text>
-      <text class="menu-arrow">›</text>
+  <!-- 功能菜单 -->
+  <view class="ios-section">
+    <view class="ios-section-body">
+      <view class="ios-cell" bindtap="onGoHistory">
+        <text class="cell-label">解析历史</text>
+        <text class="cell-arrow">›</text>
+      </view>
+      <view class="ios-cell" bindtap="onClearCache">
+        <text class="cell-label">清除缓存</text>
+        <text class="cell-arrow">›</text>
+      </view>
+      <view class="ios-cell" bindtap="onFeedback">
+        <text class="cell-label">意见反馈</text>
+        <text class="cell-arrow">›</text>
+      </view>
+      <view class="ios-cell" bindtap="onAbout">
+        <text class="cell-label">关于</text>
+        <text class="cell-arrow">›</text>
+      </view>
     </view>
   </view>
 
-  <!-- 底部版本 -->
-  <view class="version-info">
+  <!-- 版本 -->
+  <view class="version-text">
     <text>六了个六解析助手 v1.0.0</text>
-    <text>支持抖音/快手/小红书无水印解析</text>
   </view>
 </view>

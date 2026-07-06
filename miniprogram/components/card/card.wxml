@@ -1,5 +1,5 @@
-<!-- 通用卡片组件 -->
-<view class="card {{shadow ? 'card-shadow' : ''}} {{border ? 'card-border' : ''}}">
+<!-- 通用卡片组件 - iOS 风格 -->
+<view class="card">
   <view wx:if="{{title}}" class="card-header">
     <text class="card-title">{{title}}</text>
     <text wx:if="{{tag}}" class="card-tag">{{tag}}</text>
