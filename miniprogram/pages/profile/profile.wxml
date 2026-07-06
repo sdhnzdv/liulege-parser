@@ -2,13 +2,8 @@
 <nav-bar title="我的" />
 
 <view class="page">
-  <!-- Logo + 用户信息 -->
+  <!-- 用户信息 -->
   <view class="user-section">
-    <!-- App Logo -->
-    <image class="app-logo" src="/images/logo.png" mode="aspectFill" />
-    <text class="app-name">六了个六解析助手</text>
-
-    <!-- 用户头像 -->
     <image
       wx:if="{{userInfo && userInfo.avatarUrl}}"
       class="user-avatar"
