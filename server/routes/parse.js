@@ -8,9 +8,6 @@ const mongoose = require('mongoose');
 const User = mongoose.models.User;
 const History = mongoose.models.History;
 
-// 公开解析 API 地址（Douyin_TikTok_Download_API 演示站）
-const PARSE_API_BASE = 'https://api.douyin.wtf/api';
-
 function getOpenid(req) {
   const token = req.headers['authorization'] || '';
   if (token && token.startsWith('Bearer ')) {
@@ -32,11 +29,10 @@ router.post('/parse', async (req, res) => {
     if (!url) return res.json({ success: false, message: '链接不能为空' });
 
     const platform = detectPlatform(url);
-    if (platform === 'unknown') return res.json({ success: false, message: '不支持的平台，目前支持抖音、TikTok、B站' });
+    if (platform === 'unknown') return res.json({ success: false, message: '不支持的平台，目前支持抖音、快手、小红书等' });
 
     const today = getTodayStr();
 
-    // 查找/创建用户
     let user = await User.findOne({ openid }).catch(() => null);
     if (!user) {
       user = await User.create({
@@ -63,7 +59,6 @@ router.post('/parse', async (req, res) => {
     user.totalParsed = (user.totalParsed || 0) + 1;
     await user.save().catch(() => {});
 
-    // 创建历史记录
     if (History) {
       await History.create({ openid, ...result.data, platform }).catch(() => {});
     }
@@ -89,29 +84,49 @@ function detectPlatform(url) {
 }
 
 async function parseByPlatform(url, platform) {
-  // 优先使用天行数据 API（如果有 key）
+  // 使用 52api.cn（最优先）
   if (process.env.PARSE_API_KEY) {
     try {
-      const response = await axios.post('https://api.tianapi.com/douyin/video/index', {
-        key: process.env.PARSE_API_KEY, url
-      }, { timeout: 15000 });
-      if (response.data.code === 200) {
-        const d = response.data.newslist?.[0] || response.data.result || {};
-        return { success: true, data: {
-          title: d.title || '', author: d.author || '', description: d.description || '',
-          cover: d.cover || '', mediaUrl: d.video_url || d.url || '', type: d.type || 'video'
-        }};
+      console.log('调用 52api.cn 解析:', platform, url);
+      const apiRes = await axios.get('https://www.52api.cn/api/douyin', {
+        params: { key: process.env.PARSE_API_KEY, url },
+        timeout: 30000,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (compatible; LiulegeParser/1.0)'
+        }
+      });
+
+      const data = apiRes.data;
+      console.log('52api 返回 code:', data.code, 'msg:', data.msg);
+
+      if (data.code === 200 && data.data) {
+        // 52api 返回的 data 是字符串或对象
+        const d = typeof data.data === 'string' ? JSON.parse(data.data) : data.data;
+        return {
+          success: true,
+          data: {
+            title: d.title || d.desc || '',
+            author: d.author || d.nickname || '',
+            description: d.desc || d.title || '',
+            cover: d.cover || d.cover_url || '',
+            mediaUrl: d.video_url || d.url || d.video || '',
+            type: d.type === 'image' || d.images ? 'image' : 'video',
+            musicUrl: d.music_url || d.music || '',
+            duration: d.duration || 0
+          }
+        };
       }
+
+      return { success: false, message: data.msg || '解析失败' };
     } catch (e) {
-      console.error('天行数据 API 失败:', e.message);
+      console.error('52api 解析失败:', e.message);
     }
   }
 
-  // 使用 Douyin_TikTok_Download_API 公开接口
+  // 备用：尝试 Douyin_TikTok_Download_API 公开接口
   try {
-    console.log('调用公开解析 API:', platform, url);
-
-    const apiRes = await axios.get(`${PARSE_API_BASE}/hybrid/video_data`, {
+    console.log('尝试备用 API:', platform, url);
+    const apiRes = await axios.get('https://api.douyin.wtf/api/hybrid/video_data', {
       params: { url, minimal: false },
       timeout: 30000,
       headers: {
@@ -120,19 +135,12 @@ async function parseByPlatform(url, platform) {
     });
 
     const data = apiRes.data;
-    console.log('API 返回:', JSON.stringify(data).substring(0, 500));
-
     if (data && data.code === 200 && data.data) {
       const d = data.data;
-      // 提取无水印视频链接
       let mediaUrl = '';
-      if (d.nwm_video_url) {
-        mediaUrl = d.nwm_video_url; // 无水印
-      } else if (d.video_data && d.video_data.nwm_urls && d.video_data.nwm_urls.length > 0) {
-        mediaUrl = d.video_data.nwm_urls[0];
-      } else if (d.download_url) {
-        mediaUrl = d.download_url;
-      }
+      if (d.nwm_video_url) mediaUrl = d.nwm_video_url;
+      else if (d.video_data?.nwm_urls?.length > 0) mediaUrl = d.video_data.nwm_urls[0];
+      else if (d.download_url) mediaUrl = d.download_url;
 
       return {
         success: true,
@@ -144,18 +152,15 @@ async function parseByPlatform(url, platform) {
           mediaUrl: mediaUrl,
           type: d.images ? 'image' : 'video',
           musicUrl: d.music?.play_url?.url_list?.[0] || '',
-          duration: d.duration || 0,
-          likeCount: d.statistics?.digg_count || 0,
-          commentCount: d.statistics?.comment_count || 0
+          duration: d.duration || 0
         }
       };
     }
 
-    return { success: false, message: data?.msg || data?.message || '解析失败，请检查链接是否正确' };
+    return { success: false, message: data?.msg || '备用解析失败' };
   } catch (e) {
-    console.error('公开 API 解析失败:', e.message);
-    // 公开 API 失败时，直接告诉用户服务不可用，而不是返回示例数据
-    return { success: false, message: '公开解析服务暂不可用，请稍后重试或联系开发者' };
+    console.error('备用 API 失败:', e.message);
+    return { success: false, message: '解析服务暂不可用，请稍后重试' };
   }
 }
 
