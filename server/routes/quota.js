@@ -29,7 +29,7 @@ router.get('/quota', async (req, res) => {
     }
 
     const limit = quota.limit + (quota.bonus || 0);
-    return res.json({ used: quota.used, limit, remaining: Math.max(0, limit - quota.used), bonus: quota.bonus || 0 });
+    return res.json({ used: quota.used, limit, remaining: Math.max(0, limit - quota.used), bonus: quota.bonus || 0, version: 'v2-50' });
   } catch (err) {
     console.error('quota error:', err.message);
     return res.json({ used: 0, limit: 50, remaining: 50, bonus: 0 });
