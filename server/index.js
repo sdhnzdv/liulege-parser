@@ -1,11 +1,6 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const connectDB = require('./config/db');
-
-// 连接数据库
-connectDB();
 
 const app = express();
 
@@ -14,7 +9,24 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ========== 统一注册所有 Mongoose Model（解决 Serverless 冷启动加载顺序问题）==========
+// ========== MongoDB 连接（Serverless 缓存模式）==========
+let cached = global.mongoose;
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+async function connectDB() {
+  if (cached.conn) return cached.conn;
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(process.env.MONGODB_URI, { bufferCommands: false })
+      .then((m) => { console.log('MongoDB 已连接'); return m; })
+      .catch((err) => { console.error('MongoDB 连接失败:', err.message); cached.promise = null; return null; });
+  }
+  cached.conn = await cached.promise;
+  return cached.conn;
+}
+
+// ========== 统一注册所有 Mongoose Model ==========
 if (!mongoose.models.User) {
   mongoose.model('User', new mongoose.Schema({
     openid: { type: String, required: true, unique: true },
@@ -39,12 +51,20 @@ if (!mongoose.models.History) {
   }));
 }
 
-// 健康检查
+// ========== 中间件：自动连接数据库 ==========
+app.use(async (req, res, next) => {
+  // 健康检查不需要数据库
+  if (req.path === '/api/health') return next();
+  // 其他接口先确保数据库连接
+  await connectDB();
+  next();
+});
+
+// ========== 路由 ==========
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', time: new Date().toISOString() });
 });
 
-// 路由
 app.use('/api', require('./routes/login'));
 app.use('/api', require('./routes/parse'));
 app.use('/api', require('./routes/quota'));
@@ -57,13 +77,12 @@ app.use((req, res) => {
 
 // 错误处理
 app.use((err, req, res, next) => {
-  console.error('服务器错误:', err);
+  console.error('服务器错误:', err.message);
   res.status(500).json({ message: '服务器内部错误' });
 });
 
+// 本地开发时监听端口
 const PORT = process.env.PORT || 3000;
-
-// Vercel Serverless 不需要监听端口，本地开发时启动
 if (!process.env.VERCEL) {
   app.listen(PORT, () => {
     console.log(`六了个六解析助手 - 后端服务启动: http://localhost:${PORT}`);
