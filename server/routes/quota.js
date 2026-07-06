@@ -3,18 +3,8 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
-  openid: { type: String, required: true, unique: true },
-  dailyQuota: {
-    date: { type: String, default: '' },
-    used: { type: Number, default: 0 },
-    limit: { type: Number, default: 5 },
-    bonus: { type: Number, default: 0 }
-  },
-  totalParsed: { type: Number, default: 0 },
-  createTime: { type: Date, default: Date.now }
-});
-const User = mongoose.models.User || mongoose.model('User', userSchema);
+// 复用已有的 User model，不重新定义
+const User = mongoose.models.User;
 
 router.get('/quota', async (req, res) => {
   try {
@@ -29,11 +19,13 @@ router.get('/quota', async (req, res) => {
     if (!openid) return res.json({ used: 0, limit: 5, remaining: 5, bonus: 0 });
 
     const today = getTodayStr();
+    if (!User) return res.json({ used: 0, limit: 5, remaining: 5, bonus: 0 });
+
     let user = await User.findOne({ openid }).catch(() => null);
     if (!user) return res.json({ used: 0, limit: 5, remaining: 5, bonus: 0 });
 
     let quota = user.dailyQuota;
-    if (quota.date !== today) {
+    if (!quota || quota.date !== today) {
       quota = { date: today, used: 0, limit: 5, bonus: 0 };
       user.dailyQuota = quota;
       await user.save().catch(() => {});
@@ -42,6 +34,7 @@ router.get('/quota', async (req, res) => {
     const limit = quota.limit + (quota.bonus || 0);
     return res.json({ used: quota.used, limit, remaining: Math.max(0, limit - quota.used), bonus: quota.bonus || 0, date: quota.date });
   } catch (err) {
+    console.error('quota error:', err.message);
     return res.json({ used: 0, limit: 5, remaining: 5, bonus: 0 });
   }
 });
@@ -59,12 +52,14 @@ router.post('/quota/bonus', async (req, res) => {
     }
     if (!openid) return res.status(401).json({ success: false, message: '未登录' });
 
+    if (!User) return res.json({ success: false, message: '数据库未就绪' });
+
     const today = getTodayStr();
     let user = await User.findOne({ openid }).catch(() => null);
     if (!user) return res.json({ success: false, message: '用户不存在' });
 
     let quota = user.dailyQuota;
-    if (quota.date !== today) quota = { date: today, used: 0, limit: 5, bonus: 0 };
+    if (!quota || quota.date !== today) quota = { date: today, used: 0, limit: 5, bonus: 0 };
     quota.bonus = (quota.bonus || 0) + (req.body.bonus || 5);
     quota.date = today;
     user.dailyQuota = quota;
@@ -73,6 +68,7 @@ router.post('/quota/bonus', async (req, res) => {
     const limit = quota.limit + quota.bonus;
     return res.json({ success: true, quota: { used: quota.used, limit, remaining: Math.max(0, limit - quota.used), bonus: quota.bonus } });
   } catch (err) {
+    console.error('bonus error:', err.message);
     return res.json({ success: false, message: err.message });
   }
 });
