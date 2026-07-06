@@ -84,12 +84,12 @@ function detectPlatform(url) {
 }
 
 async function parseByPlatform(url, platform) {
-  // 使用 52api.cn（最优先）
-  if (process.env.PARSE_API_KEY) {
-    try {
-      console.log('调用 52api.cn 解析:', platform, url);
-      const apiRes = await axios.get('https://www.52api.cn/api/douyin', {
-        params: { key: process.env.PARSE_API_KEY, url },
+  // 使用 52api.cn（内置 key）
+  const parseApiKey = process.env.PARSE_API_KEY || 'HRpjlIIA66QF36bioxIz2ILFce';
+  try {
+    console.log('调用 52api.cn 解析:', platform, url);
+    const apiRes = await axios.get('https://www.52api.cn/api/douyin', {
+      params: { key: parseApiKey, url },
         timeout: 30000,
         headers: {
           'User-Agent': 'Mozilla/5.0 (compatible; LiulegeParser/1.0)'
