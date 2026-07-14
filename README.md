@@ -116,3 +116,4 @@ PARSE_API_KEY=你的天行数据API密钥
 - ✅ 完全免费部署（Vercel + MongoDB Atlas）
 更新于 2026-07-06
 更新 AppID 配置
+部署 v1.0.1
