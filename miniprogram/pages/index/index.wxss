@@ -1,14 +1,17 @@
 /* 首页 - iOS 风格 */
 .page {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  padding-bottom: 60rpx;
+  box-sizing: border-box;
 }
 
 /* 顶部渐变 */
 .hero-gradient {
-  padding: 60rpx 40rpx 40rpx;
+  padding: 48rpx 40rpx 32rpx;
   background: linear-gradient(180deg, rgba(0, 122, 255, 0.06) 0%, transparent 100%);
   text-align: center;
+  flex-shrink: 0;
 }
 
 .hero-title {
@@ -29,7 +32,7 @@
 /* 输入区域 */
 .url-input {
   width: 100%;
-  min-height: 160rpx;
+  min-height: 140rpx;
   padding: 24rpx;
   font-size: 30rpx;
   color: var(--color-text);
@@ -43,6 +46,7 @@
   display: flex;
   gap: 16rpx;
   padding: 16rpx 32rpx;
+  flex-shrink: 0;
 }
 
 .ios-btn {
@@ -67,6 +71,7 @@
 /* 解析按钮 */
 .parse-section {
   padding: 16rpx 32rpx;
+  flex-shrink: 0;
 }
 
 .parse-btn {
@@ -90,7 +95,8 @@
 /* 配额 */
 .quota-info {
   text-align: center;
-  padding: 20rpx 0;
+  padding: 16rpx 0;
+  flex-shrink: 0;
 }
 
 .quota-text {
@@ -104,25 +110,15 @@
   color: var(--color-primary);
 }
 
-/* iOS 列表项 */
-.cell-label {
-  font-size: 30rpx;
-  color: var(--color-text);
-}
-
-.cell-value {
-  font-size: 28rpx;
-  color: var(--color-text-muted);
-}
-
 /* 支持平台标签 */
 .platform-tags-section {
-  margin: 32rpx 32rpx 24rpx;
+  margin: 24rpx 32rpx 16rpx;
+  flex-shrink: 0;
 }
 
 .platform-tags-label {
   display: block;
-  font-size: 24rpx;
+  font-size: 26rpx;
   color: var(--color-text-muted);
   margin-bottom: 16rpx;
   letter-spacing: 0.5rpx;
@@ -143,24 +139,32 @@
   border: 1rpx solid var(--color-border);
 }
 
+/* 弹性占位 - 把剩余内容推到底部 */
+.spacer {
+  flex: 1;
+  min-height: 20rpx;
+}
+
 /* 使用提示 */
 .tips-line {
-  margin: 0 32rpx 32rpx;
+  margin: 0 32rpx 24rpx;
   padding: 24rpx 32rpx;
   background-color: var(--color-bg-card);
   border-radius: var(--radius-md);
   font-size: 28rpx;
   color: var(--color-text-secondary);
+  flex-shrink: 0;
 }
 
 /* 广告 */
 .ad-hint {
-  margin: 32rpx 32rpx;
+  margin: 0 32rpx 32rpx;
   padding: 24rpx;
   text-align: center;
   background-color: var(--color-bg-card);
   border-radius: var(--radius-md);
   border: 1rpx dashed var(--color-primary);
+  flex-shrink: 0;
 }
 
 .ad-hint-text {

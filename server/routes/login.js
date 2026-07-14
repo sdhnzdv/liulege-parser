@@ -38,7 +38,8 @@ router.post('/login', async (req, res) => {
     if (!user) {
       user = await User.create({
         openid,
-        dailyQuota: { date: today, used: 0, limit: 5, bonus: 0 }
+        dailyQuota: { date: today, used: 0, limit: 5, bonus: 0 },
+        totalParsed: 0
       }).catch((err) => {
         console.error('创建用户失败:', err.message);
         return null;
@@ -48,7 +49,7 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign({ openid }, process.env.JWT_SECRET || 'default', { expiresIn: '7d' });
 
     let quota = user ? (user.dailyQuota || { date: today, used: 0, limit: 5, bonus: 0 }) : { date: today, used: 0, limit: 5, bonus: 0 };
-    if (!quota.date || quota.date !== today) {
+    if (!quota.date || quota.date !== today || (quota.limit || 0) !== 5) {
       quota = { date: today, used: 0, limit: 5, bonus: 0 };
       if (user) {
         user.dailyQuota = quota;

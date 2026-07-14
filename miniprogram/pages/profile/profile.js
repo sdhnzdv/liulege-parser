@@ -19,7 +19,11 @@ Page({
   // 加载用户数据
   loadUserData() {
     const { userInfo, openid, quota } = app.globalData;
-    this.setData({ userInfo, openid, quota });
+    this.setData({
+      userInfo: userInfo || null,
+      openid: openid || '',
+      quota: quota || { used: 0, limit: 5, remaining: 5 }
+    });
   },
 
   // 加载配额
@@ -32,25 +36,29 @@ Page({
     }
   },
 
-  // 加载累计解析次数（后端暂无此接口，用配额信息估算）
+  // 加载累计解析次数
   async loadTotalParsed() {
     try {
-      const quota = await api.getUserQuota();
-      if (quota) {
-        // 用已使用次数作为累计参考
-        this.setData({ totalParsed: quota.used || 0 });
+      const res = await api.getUserQuota();
+      if (res && res.totalParsed !== undefined) {
+        this.setData({ totalParsed: res.totalParsed });
       }
     } catch (err) {
       console.error('加载累计解析失败:', err);
     }
   },
 
-  // 获取用户信息
-  onGetUserInfo(e) {
-    if (e.detail.userInfo) {
-      this.setData({ userInfo: e.detail.userInfo });
-      app.globalData.userInfo = e.detail.userInfo;
-    }
+  // 获取微信头像和昵称
+  onChooseAvatar(e) {
+    const { avatarUrl } = e.detail;
+    this.setData({ 'userInfo.avatarUrl': avatarUrl });
+    app.globalData.userInfo = { ...app.globalData.userInfo, avatarUrl };
+  },
+
+  onInputNickname(e) {
+    const nickName = e.detail.value;
+    this.setData({ 'userInfo.nickName': nickName });
+    app.globalData.userInfo = { ...app.globalData.userInfo, nickName };
   },
 
   // 跳转历史
@@ -62,12 +70,16 @@ Page({
   onClearCache() {
     wx.showModal({
       title: '清除缓存',
-      content: '确定要清除所有缓存数据吗？',
+      content: '确定要清除所有缓存数据吗？这将清除登录状态。',
       success: (res) => {
         if (res.confirm) {
           wx.clearStorage({
             success: () => {
               wx.showToast({ title: '已清除', icon: 'success' });
+              // 重新登录
+              setTimeout(() => {
+                app.doLogin();
+              }, 500);
             }
           });
         }

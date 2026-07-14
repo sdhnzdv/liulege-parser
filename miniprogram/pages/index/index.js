@@ -10,8 +10,8 @@ Page({
     platformIcon: '',
     canParse: false,
     parsing: false,
-    remainingQuota: 50,
-    quotaLimit: 50,
+    remainingQuota: 5,
+    quotaLimit: 5,
     showAdHint: false,
     adUnitId: 'YOUR_AD_UNIT_ID' // 激励视频广告单元 ID
   },

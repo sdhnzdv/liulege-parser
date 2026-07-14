@@ -4,16 +4,24 @@
 <view class="page">
   <!-- 用户信息 -->
   <view class="user-section">
-    <image
-      wx:if="{{userInfo && userInfo.avatarUrl}}"
-      class="user-avatar"
-      src="{{userInfo.avatarUrl}}"
-      mode="aspectFill"
+    <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+      <image
+        wx:if="{{userInfo && userInfo.avatarUrl}}"
+        class="user-avatar"
+        src="{{userInfo.avatarUrl}}"
+        mode="aspectFill"
+      />
+      <view wx:else class="user-avatar default-avatar">
+        <text class="avatar-emoji">😊</text>
+      </view>
+    </button>
+    <input
+      class="nickname-input"
+      type="nickname"
+      placeholder="点击设置昵称"
+      value="{{userInfo ? userInfo.nickName : ''}}"
+      bindblur="onInputNickname"
     />
-    <view wx:else class="user-avatar default-avatar">
-      <text class="avatar-emoji">😊</text>
-    </view>
-    <text class="user-name">{{userInfo ? userInfo.nickName : '微信用户'}}</text>
     <text class="user-id">ID: {{openid ? openid.substring(0, 12) + '...' : '未登录'}}</text>
   </view>
 
@@ -28,7 +36,7 @@
         <view class="quota-divider"></view>
         <view class="quota-item">
           <text class="quota-num">{{quota.used}}</text>
-          <text class="quota-label">已使用</text>
+          <text class="quota-label">今日已用</text>
         </view>
         <view class="quota-divider"></view>
         <view class="quota-item">

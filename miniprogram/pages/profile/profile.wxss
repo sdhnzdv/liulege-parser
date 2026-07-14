@@ -1,7 +1,8 @@
 /* 个人中心页 - iOS 风格 */
 .page {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  padding-bottom: 60rpx;
 }
 
 /* 用户区域 */
@@ -11,13 +12,27 @@
   align-items: center;
   padding: 48rpx 0 40rpx;
   background: linear-gradient(180deg, rgba(0, 122, 255, 0.04) 0%, transparent 100%);
+  flex-shrink: 0;
+}
+
+.avatar-btn {
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  line-height: 1;
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.avatar-btn::after {
+  border: none;
 }
 
 .user-avatar {
   width: 120rpx;
   height: 120rpx;
   border-radius: 50%;
-  margin-bottom: 20rpx;
   background-color: var(--color-border-light);
 }
 
@@ -32,14 +47,19 @@
   font-size: 56rpx;
 }
 
-.user-name {
+.nickname-input {
+  margin-top: 20rpx;
   font-size: 36rpx;
   font-weight: 600;
   color: var(--color-text);
-  margin-bottom: 6rpx;
+  text-align: center;
+  width: 400rpx;
+  height: 56rpx;
+  line-height: 56rpx;
 }
 
 .user-id {
+  margin-top: 8rpx;
   font-size: 24rpx;
   color: var(--color-text-muted);
 }
@@ -60,7 +80,7 @@
 }
 
 .quota-num {
-  font-size: 40rpx;
+  font-size: 44rpx;
   font-weight: 700;
   color: var(--color-primary);
 }
@@ -76,9 +96,15 @@
   background-color: var(--color-separator);
 }
 
+/* 菜单 */
+.cell-label {
+  font-size: 32rpx;
+  color: var(--color-text);
+}
+
 /* 箭头 */
 .cell-arrow {
-  font-size: 32rpx;
+  font-size: 36rpx;
   color: var(--color-text-muted);
   font-weight: 300;
 }
@@ -89,4 +115,5 @@
   padding: 40rpx;
   font-size: 24rpx;
   color: var(--color-text-muted);
+  margin-top: auto;
 }

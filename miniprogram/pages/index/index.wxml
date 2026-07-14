@@ -64,6 +64,9 @@
     </view>
   </view>
 
+  <!-- 弹性占位 - 把使用提示和广告推到底部 -->
+  <view class="spacer"></view>
+
   <!-- 使用提示 -->
   <view class="tips-line">
     <text>使用提示：复制分享链接 → 粘贴 → 解析</text>
@@ -71,6 +74,6 @@
 
   <!-- 广告 -->
   <view class="ad-hint" wx:if="{{showAdHint}}">
-    <text class="ad-hint-text">观看广告获取更多解析次数</text>
+    <text class="ad-hint-text">今日次数已用完，观看广告获取 5 次</text>
   </view>
 </view>

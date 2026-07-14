@@ -38,13 +38,15 @@ router.post('/parse', async (req, res) => {
     if (!user) {
       user = await User.create({
         openid,
-        dailyQuota: { date: today, used: 0, limit: 5, bonus: 0 }
+        dailyQuota: { date: today, used: 0, limit: 5, bonus: 0 },
+        totalParsed: 0
       }).catch(() => null);
     }
     if (!user) return res.json({ success: false, message: '用户数据异常' });
 
     let quota = user.dailyQuota;
-    if (!quota || quota.date !== today) quota = { date: today, used: 0, limit: 5, bonus: 0 };
+    if (!quota || quota.date !== today || (quota.limit || 0) !== 5) {
+      quota = { date: today, used: 0, limit: 5, bonus: 0 };
 
     const limit = quota.limit + (quota.bonus || 0);
     if (quota.used >= limit) return res.json({ success: false, message: '今日次数已用完', quotaExceeded: true });
