@@ -21,7 +21,7 @@ router.get('/quota', async (req, res) => {
     if (!user) return res.json({ used: 0, limit: 5, remaining: 5, bonus: 0 });
 
     let quota = user.dailyQuota;
-    // 日期变更 或 旧版数据需重置
+    // 日期变1更 或 旧版数据需重置
     if (!quota || quota.date !== today || (quota.limit || 0) !== 5) {
       quota = { date: today, used: 0, limit: 5, bonus: 0 };
       user.dailyQuota = quota;
