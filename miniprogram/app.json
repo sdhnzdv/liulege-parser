@@ -2,8 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/result/result",
-    "pages/history/history",
-    "pages/profile/profile"
+    "pages/history/history"
   ],
   "window": {
     "backgroundTextStyle": "dark",
@@ -30,12 +29,6 @@
         "text": "历史",
         "iconPath": "images/tab-history.png",
         "selectedIconPath": "images/tab-history-active.png"
-      },
-      {
-        "pagePath": "pages/profile/profile",
-        "text": "我的",
-        "iconPath": "images/tab-profile.png",
-        "selectedIconPath": "images/tab-profile-active.png"
       }
     ]
   },
