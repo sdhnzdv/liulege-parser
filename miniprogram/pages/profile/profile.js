@@ -18,11 +18,15 @@ Page({
 
   // 加载用户数据
   loadUserData() {
-    const { userInfo, openid, quota } = app.globalData;
+    // 优先从 app.globalData 取，没有则从本地缓存取
+    let { userInfo, openid } = app.globalData;
+    if (!openid) openid = wx.getStorageSync('openid') || '';
+    if (!userInfo) userInfo = wx.getStorageSync('userInfo') || null;
+
     this.setData({
       userInfo: userInfo || null,
       openid: openid || '',
-      quota: quota || { used: 0, limit: 5, remaining: 5 }
+      quota: app.globalData.quota || { used: 0, limit: 5, remaining: 5 }
     });
   },
 
@@ -31,6 +35,7 @@ Page({
     try {
       const quota = await api.getUserQuota();
       this.setData({ quota });
+      app.globalData.quota = quota;
     } catch (err) {
       console.error('加载配额失败:', err);
     }
@@ -48,17 +53,22 @@ Page({
     }
   },
 
-  // 获取微信头像和昵称
+  // 选择头像
   onChooseAvatar(e) {
     const { avatarUrl } = e.detail;
-    this.setData({ 'userInfo.avatarUrl': avatarUrl });
-    app.globalData.userInfo = { ...app.globalData.userInfo, avatarUrl };
+    const userInfo = { ...(this.data.userInfo || {}), avatarUrl };
+    this.setData({ userInfo });
+    app.globalData.userInfo = userInfo;
+    wx.setStorageSync('userInfo', userInfo);
   },
 
+  // 输入昵称
   onInputNickname(e) {
     const nickName = e.detail.value;
-    this.setData({ 'userInfo.nickName': nickName });
-    app.globalData.userInfo = { ...app.globalData.userInfo, nickName };
+    const userInfo = { ...(this.data.userInfo || {}), nickName };
+    this.setData({ userInfo });
+    app.globalData.userInfo = userInfo;
+    wx.setStorageSync('userInfo', userInfo);
   },
 
   // 跳转历史
@@ -76,7 +86,6 @@ Page({
           wx.clearStorage({
             success: () => {
               wx.showToast({ title: '已清除', icon: 'success' });
-              // 重新登录
               setTimeout(() => {
                 app.doLogin();
               }, 500);
