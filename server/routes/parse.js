@@ -47,6 +47,7 @@ router.post('/parse', async (req, res) => {
     let quota = user.dailyQuota;
     if (!quota || quota.date !== today || (quota.limit || 0) !== 5) {
       quota = { date: today, used: 0, limit: 5, bonus: 0 };
+    }
 
     const limit = quota.limit + (quota.bonus || 0);
     if (quota.used >= limit) return res.json({ success: false, message: '今日次数已用完', quotaExceeded: true });
